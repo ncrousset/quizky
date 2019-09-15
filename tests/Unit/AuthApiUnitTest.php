@@ -23,7 +23,7 @@ class AuthApiUnitTest extends TestCase
         $response = $this->client
             ->request('POST', env('APP_URL').'/api/register', ['form_params' => $data]);
 
-        $this->assertEquals($response->getStatusCode(), 200);
+        $this->assertEquals($response->getStatusCode(), 201);
 
         $contentResponse = json_decode($response->getBody());
 

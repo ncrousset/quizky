@@ -7,10 +7,10 @@ use Tests\TestCase;
 class QuizApiUnitTest extends TestCase
 {
 
+
     public function testCreate()
     {
         $data = [
-            'user_id' => 1,
             'title' => $this->faker->title,
             'public' => rand(0,1)];
 
@@ -28,24 +28,27 @@ class QuizApiUnitTest extends TestCase
         $this->assertTrue($contentResponse->id > 0);
     }
 
+
     public function testIndex()
     {
 
     }
 
-    public function testShow()
-    {
 
-    }
 
-    public function testEdit()
-    {
-
-    }
-
-    public function testDelete()
-    {
-
-    }
+//    public function testShow()
+//    {
+//
+//    }
+//
+//    public function testEdit()
+//    {
+//
+//    }
+//
+//    public function testDelete()
+//    {
+//
+//    }
 
 }

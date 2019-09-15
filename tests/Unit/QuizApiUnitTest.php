@@ -29,11 +29,10 @@ class QuizApiUnitTest extends TestCase
     }
 
 
-    public function testIndex()
-    {
-
-    }
-
+//    public function testIndex()
+//    {
+//
+//    }
 
 
 //    public function testShow()

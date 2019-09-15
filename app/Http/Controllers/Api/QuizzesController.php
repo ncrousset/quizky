@@ -12,7 +12,7 @@ class QuizzesController extends Controller
     public function store(Request $request)
     {
         $quiz = Quiz::create([
-            'id_user' => 1, // this is user session
+            'user_id' => 1, // this is user session
             'title' => $request->title,
             'public' => $request->public
         ]);

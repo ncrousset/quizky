@@ -77,7 +77,7 @@ class RegisterController extends Controller
 
         if($request->acceptsJson()) {
             return response()->json(
-                ['user' => $user, 'access_token' => $accessToken]);
+                ['user' => $user, 'access_token' => $accessToken], 201);
         }
     }
 }

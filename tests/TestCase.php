@@ -12,16 +12,9 @@ abstract class TestCase extends BaseTestCase
 {
     use CreatesApplication, DatabaseMigrations, DatabaseTransactions;
 
-    const HEADERS = [
-        'accept' => 'application/json'
-    ];
-
     protected $faker;
 
-    protected $client;
-
     protected $user;
-
 
     /**
      * Set up the test
@@ -32,8 +25,6 @@ abstract class TestCase extends BaseTestCase
         $this->faker = \Faker\Factory::create();
 
         $this->user = factory(User::class)->create();
-
-        $this->client =  new GuzzleHttp(['headers' => self::HEADERS]);
     }
     /**
      * Reset the migrations

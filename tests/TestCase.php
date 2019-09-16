@@ -2,6 +2,7 @@
 
 namespace Tests;
 
+use App\User;
 use GuzzleHttp\Client as GuzzleHttp;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -19,6 +20,8 @@ abstract class TestCase extends BaseTestCase
 
     protected $client;
 
+    protected $user;
+
 
     /**
      * Set up the test
@@ -28,7 +31,8 @@ abstract class TestCase extends BaseTestCase
         parent::setUp();
         $this->faker = \Faker\Factory::create();
 
-//
+        $this->user = factory(User::class)->create();
+
         $this->client =  new GuzzleHttp(['headers' => self::HEADERS]);
     }
     /**

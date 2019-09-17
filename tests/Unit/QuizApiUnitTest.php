@@ -73,7 +73,7 @@ class QuizApiUnitTest extends TestCase
     public function testUpdate(): void
     {
         $quiz = $this->createQuizzes(1)[0];
-        
+
         $data = [
             'title' => $this->faker->title,
             'public' => rand(0,1)];

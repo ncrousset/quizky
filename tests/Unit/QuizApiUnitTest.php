@@ -50,7 +50,7 @@ class QuizApiUnitTest extends TestCase
             ]);
     }
 
-    public function testShow()
+    public function testShow(): void
     {
         $this->createQuizzes(1);
 
@@ -60,17 +60,42 @@ class QuizApiUnitTest extends TestCase
             ->assertJsonStructure(['id', 'title', 'public']);
     }
 
-    public function testShowNotElement()
+    public function testShowNotElement(): void
     {
         $this->response
             ->json('GET', '/api/quizzes/1')
             ->assertStatus(404);
     }
 
-//    public function testEdit()
-//    {
-//
-//    }
+    public function testEdit(): void
+    {
+        $quiz = $this->createQuizzes(1);
+
+        $data = [
+            'title' => $this->faker->title,
+            'public' => rand(0,1)];
+
+        $this->response
+            ->json('PUT', '/api/quizzes/'.$quiz->id, $data)
+            ->assertStatus(203)
+            ->assertJson([
+                'title' => true,
+                'id' => true,
+                'public' => true
+            ]);
+
+    }
+
+    public function testEditNotElement(): void
+    {
+        $data = [
+            'title' => $this->faker->title,
+            'public' => rand(0,1)];
+
+        $this->response
+            ->json('PUT', '/api/quizzes/1', $data)
+            ->assertStatus(404);
+    }
 //
 //    public function testDelete()
 //    {

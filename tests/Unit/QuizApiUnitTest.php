@@ -51,10 +51,25 @@ class QuizApiUnitTest extends TestCase
     }
 
 
-//    public function testShow()
-//    {
-//
-//    }
+    public function testShow()
+    {
+        $this->createQuizzes(1);
+
+        $this->response
+            ->json('GET', '/api/quizzes/1')
+            ->assertStatus(200)
+            ->assertJsonStructure([
+                'data' =>['id', 'title', 'public'],
+            ]);
+    }
+
+    public function testShowNotElement()
+    {
+        $this->response
+            ->json('GET', '/api/quizzes/1')
+            ->assertStatus(400)
+            ->assertStringContainsString('not found');
+    }
 //
 //    public function testEdit()
 //    {

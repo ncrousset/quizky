@@ -12,14 +12,9 @@ class QuizzesController extends Controller
 
     public function index()
     {
+        $quizzes = Quiz::all();
 
-        $data = [[
-            'id' => 1,
-            'title' => 'prueba',
-            'public' =>  true
-        ]];
-
-        return response()->json(['data' => $data], 200);
+        return response()->json(['data' => $quizzes], 200);
     }
 
     public function store(Request $request)

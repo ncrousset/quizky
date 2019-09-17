@@ -2,6 +2,7 @@
 
 namespace Tests\Unit;
 
+use App\Models\Quiz;
 use Tests\TestCase;
 
 class QuizApiUnitTest extends TestCase
@@ -16,7 +17,13 @@ class QuizApiUnitTest extends TestCase
         $this->response = $this->actingAs($this->user, 'api');
     }
 
-    public function testCreate()
+
+    public function createQuizzes(int $quantity = 1): void
+    {
+        factory(\App\Models\Quiz::class, $quantity)->create();
+    }
+
+    public function testCreate(): void
     {
         $data = [
             'title' => $this->faker->title,
@@ -31,9 +38,10 @@ class QuizApiUnitTest extends TestCase
             ]);
     }
 
-
-    public function testIndex()
+    public function testIndex(): void
     {
+        $this->createQuizzes(10);
+
         $this->response
             ->json('GET', '/api/quizzes')
             ->assertStatus(200)

@@ -14,7 +14,7 @@ use Illuminate\Http\Request;
 */
 
 
-Route::namespace('Auth')->post('register', 'RegisterController@register')->name('auth.register');
+Route::post('register', 'Auth\RegisterController@register')->name('auth.register');
 
 Route::middleware('auth:api')->group(function() {
     Route::get('quizzes', 'Api\QuizzesController@index')->name('quizzes.index');

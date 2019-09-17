@@ -10,6 +10,18 @@ use Illuminate\Support\Facades\Auth;
 class QuizzesController extends Controller
 {
 
+    public function index()
+    {
+
+        $data = [[
+            'id' => 1,
+            'title' => 'prueba',
+            'public' =>  true
+        ]];
+
+        return response()->json(['data' => $data], 200);
+    }
+
     public function store(Request $request)
     {
         try {
@@ -26,5 +38,7 @@ class QuizzesController extends Controller
 
         return response()->json(['created' => true, 'id' => $quiz->id], 201);
     }
+
+
 
 }

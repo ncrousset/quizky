@@ -32,10 +32,15 @@ class QuizApiUnitTest extends TestCase
     }
 
 
-//    public function testIndex()
-//    {
-//
-//    }
+    public function testIndex()
+    {
+        $this->response
+            ->json('GET', '/api/quizzes')
+            ->assertStatus(200)
+            ->assertJsonStructure([
+                'data' =>[['id', 'title', 'public']],
+            ]);
+    }
 
 
 //    public function testShow()

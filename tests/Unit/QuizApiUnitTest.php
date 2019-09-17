@@ -17,10 +17,13 @@ class QuizApiUnitTest extends TestCase
         $this->response = $this->actingAs($this->user, 'api');
     }
 
-
-    public function createQuizzes(int $quantity = 1): void
+    /**
+     * @param int $quantity
+     * @return mixed
+     */
+    public function createQuizzes(int $quantity = 1)
     {
-        factory(\App\Models\Quiz::class, $quantity)->create();
+        return factory(\App\Models\Quiz::class, $quantity)->create();
     }
 
     public function testCreate(): void
@@ -67,17 +70,17 @@ class QuizApiUnitTest extends TestCase
             ->assertStatus(404);
     }
 
-    public function testEdit(): void
+    public function testUpdate(): void
     {
-        $quiz = $this->createQuizzes(1);
-
+        $quiz = $this->createQuizzes(1)[0];
+        
         $data = [
             'title' => $this->faker->title,
             'public' => rand(0,1)];
 
         $this->response
             ->json('PUT', '/api/quizzes/'.$quiz->id, $data)
-            ->assertStatus(203)
+            ->assertStatus(200)
             ->assertJson([
                 'title' => true,
                 'id' => true,
@@ -86,7 +89,7 @@ class QuizApiUnitTest extends TestCase
 
     }
 
-    public function testEditNotElement(): void
+    public function testUpdateNotElement(): void
     {
         $data = [
             'title' => $this->faker->title,

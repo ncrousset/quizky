@@ -11,6 +11,9 @@ use Illuminate\Support\Facades\Auth;
 class QuizzesController extends Controller
 {
 
+    /**
+     * @return JsonResponse
+     */
     public function index(): JsonResponse
     {
         $quizzes = Quiz::all();
@@ -39,11 +42,32 @@ class QuizzesController extends Controller
         return response()->json(['created' => true, 'id' => $quiz->id], 201);
     }
 
-    public function show(Quiz $quiz)
+    /**
+     * @param Quiz $quiz
+     * @return JsonResponse
+     */
+    public function show(Quiz $quiz): JsonResponse
     {
         return response()->json($quiz, 200);
     }
 
+    /**
+     * @param Quiz $quiz
+     * @return JsonResponse
+     */
+    public function update(Request $request, Quiz $quiz): JsonResponse
+    {
+        try {
+            $quiz->update(['title' => $request->title, 'public' => $request->public]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => $e->getMessage(),
+                'code' => $e->getCode(), 400]);
+        }
+
+        return response()->json($quiz, 200);
+
+    }
 
 
 }

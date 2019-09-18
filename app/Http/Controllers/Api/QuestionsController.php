@@ -48,5 +48,14 @@ class QuestionsController extends Controller
         return response()->json(['created' => true, 'id' => $question->id], 201);
     }
 
+    /**
+     * @param Question $question
+     * @return JsonResponse
+     */
+    public function show(Question $question): JsonResponse
+    {
+        return response()->json($question, 200);
+    }
+
 
 }

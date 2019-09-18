@@ -58,7 +58,6 @@ class QuestionApiUnitTest extends TestCase
 
     public function testIndex(): void
     {
-        $this->createQuizzes();
         $this->createQuestions(10);
 
         $this->response

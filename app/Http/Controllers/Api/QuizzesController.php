@@ -29,7 +29,7 @@ class QuizzesController extends Controller
     public function store(Request $request): JsonResponse
     {
         Validator::make($request->all(), [
-            'title' => 'required|unique:quizzes',
+            'title' => 'required|unique:quizzes,title',
         ])->validate();
 
         try {
@@ -62,6 +62,10 @@ class QuizzesController extends Controller
      */
     public function update(Request $request, Quiz $quiz): JsonResponse
     {
+        Validator::make($request->all(), [
+            'title' => 'required|unique:quizzes,title,'.$quiz->id,
+        ])->validate();
+
         try {
             $quiz->update(['title' => $request->title, 'public' => $request->public]);
         } catch (\Exception $e) {

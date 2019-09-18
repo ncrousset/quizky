@@ -84,9 +84,6 @@ class QuizApiUnitTest extends TestCase
             ->assertJsonStructure(['title', 'id', 'public']);
     }
 
-    /**
-     *
-     */
     public function testUpdateNotElement(): void
     {
         $data = [
@@ -124,6 +121,39 @@ class QuizApiUnitTest extends TestCase
                 ]
             ]);
     }
+
+    public function testUpdateErrorValidation(): void
+    {
+        $quiz = $this->createQuizzes(1)[0];
+
+        $data = ['public' => rand(0,1)];
+
+        $this->response
+            ->json('PUT', '/api/quizzes/'.$quiz->id, $data)
+            ->assertStatus(422)
+            ->assertJsonStructure(['message', 'errors'])
+            ->assertJson([
+                'errors' => [
+                    'title' => ['The title field is required.']
+                ]
+            ]);
+
+
+        $this->createQuizzes(1)[0];
+        $data['title'] = $quiz->title;
+
+        $this->response
+            ->json('PUT', '/api/quizzes/2', $data)
+            ->assertStatus(422)
+            ->assertJsonStructure(['message', 'errors'])
+            ->assertJson([
+                'errors' => [
+                    'title' => ['The title has already been taken.']
+                ]
+            ]);
+    }
+
+
 //
 //    public function testDelete()
 //    {

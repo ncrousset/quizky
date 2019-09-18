@@ -2,11 +2,15 @@
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
-use App\Model;
+use App\Models\Question;
 use Faker\Generator as Faker;
 
-$factory->define(Model::class, function (Faker $faker) {
+$factory->define(Question::class, function (Faker $faker) {
+
+    $types = ['check', 'radio'];
+
     return [
-        //
+        'description' => $faker->text.'?',
+        'type' => $types[rand(0,1)]
     ];
 });

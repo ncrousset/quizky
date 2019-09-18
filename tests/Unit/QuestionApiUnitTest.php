@@ -123,18 +123,6 @@ class QuestionApiUnitTest extends TestCase
                     'description' => ['The description field is required.']
                 ]
             ]);
-
-        $question = $this->createQuestions()[0];
-        $data['description'] = $question->description;
-        $this->response
-            ->json('POST', '/api/questions', $data)
-            ->assertStatus(422)
-            ->assertJsonStructure(['message', 'errors'])
-            ->assertJson([
-                'errors' => [
-                    'description' => ['The description has already been taken.']
-                ]
-            ]);
     }
 
     public function testUpdateErrorValidation(): void
@@ -150,19 +138,6 @@ class QuestionApiUnitTest extends TestCase
             ->assertJson([
                 'errors' => [
                     'description' => ['The description field is required.']
-                ]
-            ]);
-
-        $this->createQuestions(1)[0];
-        $data['description'] = $question->title;
-
-        $this->response
-            ->json('PUT', '/api/questions/2', $data)
-            ->assertStatus(422)
-            ->assertJsonStructure(['message', 'errors'])
-            ->assertJson([
-                'errors' => [
-                    'description' => ['The description has already been taken.']
                 ]
             ]);
     }

@@ -7,6 +7,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class QuizzesController extends Controller
 {
@@ -27,6 +28,10 @@ class QuizzesController extends Controller
      */
     public function store(Request $request): JsonResponse
     {
+        Validator::make($request->all(), [
+            'title' => 'required|unique:quizzes',
+        ])->validate();
+
         try {
             $quiz = Quiz::create([
                 'user_id' => Auth::id(), // this is user session

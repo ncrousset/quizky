@@ -32,7 +32,7 @@ class QuizApiUnitTest extends TestCase
             'title' => $this->faker->title,
             'public' => rand(0,1)];
 
-        $this->response
+        $response = $this->response
             ->json('POST', '/api/quizzes', $data)
             ->assertStatus(201)
             ->assertJson([
@@ -81,14 +81,12 @@ class QuizApiUnitTest extends TestCase
         $this->response
             ->json('PUT', '/api/quizzes/'.$quiz->id, $data)
             ->assertStatus(200)
-            ->assertJson([
-                'title' => true,
-                'id' => true,
-                'public' => true
-            ]);
-
+            ->assertJsonStructure(['title', 'id', 'public']);
     }
 
+    /**
+     *
+     */
     public function testUpdateNotElement(): void
     {
         $data = [
@@ -98,6 +96,33 @@ class QuizApiUnitTest extends TestCase
         $this->response
             ->json('PUT', '/api/quizzes/1', $data)
             ->assertStatus(404);
+    }
+
+    public function testStoreErrorValidation(): void
+    {
+        $data = ['public' => rand(0,1)];
+
+        $this->response
+            ->json('POST', '/api/quizzes', $data)
+            ->assertStatus(422)
+            ->assertJsonStructure(['message', 'errors'])
+            ->assertJson([
+                'errors' => [
+                    'title' => ['The title field is required.']
+                ]
+            ]);
+
+        $quiz = $this->createQuizzes()[0];
+        $data['title'] = $quiz->title;
+        $this->response
+            ->json('POST', '/api/quizzes', $data)
+            ->assertStatus(422)
+            ->assertJsonStructure(['message', 'errors'])
+            ->assertJson([
+                'errors' => [
+                    'title' => ['The title has already been taken.']
+                ]
+            ]);
     }
 //
 //    public function testDelete()

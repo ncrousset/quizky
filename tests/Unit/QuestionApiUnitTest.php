@@ -18,4 +18,140 @@ class QuestionApiUnitTest extends TestCase
         $this->response = $this->actingAs($this->user, 'api');
     }
 
+
+    /**
+     * @param int $quantity
+     * @return mixed
+     */
+    public function createQuestions(int $quantity = 1)
+    {
+        return factory(\App\Models\Question::class, $quantity)->create();
+    }
+
+    public function testCreate(): void
+    {
+        $data = [
+            'description' => $this->faker->title,
+            'type' => 'radio'];
+
+        $response = $this->response
+            ->json('POST', '/api/questions', $data)
+            ->assertStatus(201)
+            ->assertJson([
+                'created' => true,
+                'id' => true
+            ]);
+    }
+
+    public function testIndex(): void
+    {
+        $this->createQuestions(10);
+
+        $this->response
+            ->json('GET', '/api/questions')
+            ->assertStatus(200)
+            ->assertJsonStructure([
+                'data' =>[['id', 'description', 'type', 'is_actived']],
+            ]);
+    }
+
+    public function testShow(): void
+    {
+        $this->createQuestions(1);
+
+        $this->response
+            ->json('GET', '/api/questions/1')
+            ->assertStatus(200)
+            ->assertJsonStructure(['id', 'description', 'type', 'is_actived']);
+    }
+
+    public function testShowNotElement(): void
+    {
+        $this->response
+            ->json('GET', '/api/questions/1')
+            ->assertStatus(404);
+    }
+
+    public function testUpdate(): void
+    {
+        $question = $this->createQuestions(1)[0];
+
+        $data = [
+            'description' => $this->faker->title,
+            'type' => 'radio'];
+
+        $this->response
+            ->json('PUT', '/api/questions/'.$question->id, $data)
+            ->assertStatus(200)
+            ->assertJsonStructure(['id', 'description', 'type', 'is_actived']);
+    }
+
+    public function testUpdateNotElement(): void
+    {
+        $data = [
+            'description' => $this->faker->title,
+            'type' => 'radio'];
+
+        $this->response
+            ->json('PUT', '/api/questions/1', $data)
+            ->assertStatus(404);
+    }
+
+    public function testStoreErrorValidation(): void
+    {
+        $data = ['type' => 'check'];
+
+        $this->response
+            ->json('POST', '/api/questions', $data)
+            ->assertStatus(422)
+            ->assertJsonStructure(['message', 'errors'])
+            ->assertJson([
+                'errors' => [
+                    'description' => ['The description field is required.']
+                ]
+            ]);
+
+        $question = $this->createQuestions()[0];
+        $data['description'] = $question->description;
+        $this->response
+            ->json('POST', '/api/questions', $data)
+            ->assertStatus(422)
+            ->assertJsonStructure(['message', 'errors'])
+            ->assertJson([
+                'errors' => [
+                    'description' => ['The description has already been taken.']
+                ]
+            ]);
+    }
+
+    public function testUpdateErrorValidation(): void
+    {
+        $question = $this->createQuestions(1)[0];
+
+        $data = ['type' => 'check'];
+
+        $this->response
+            ->json('PUT', '/api/questions/'.$question->id, $data)
+            ->assertStatus(422)
+            ->assertJsonStructure(['message', 'errors'])
+            ->assertJson([
+                'errors' => [
+                    'description' => ['The description field is required.']
+                ]
+            ]);
+
+        $this->createQuestions(1)[0];
+        $data['description'] = $question->title;
+
+        $this->response
+            ->json('PUT', '/api/questions/2', $data)
+            ->assertStatus(422)
+            ->assertJsonStructure(['message', 'errors'])
+            ->assertJson([
+                'errors' => [
+                    'description' => ['The description has already been taken.']
+                ]
+            ]);
+    }
+
 }

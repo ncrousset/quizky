@@ -25,6 +25,7 @@ class QuestionApiUnitTest extends TestCase
      */
     public function createQuestions(int $quantity = 1)
     {
+
         return factory(\App\Models\Question::class, $quantity)->create();
     }
 
@@ -57,6 +58,7 @@ class QuestionApiUnitTest extends TestCase
 
     public function testIndex(): void
     {
+        $this->createQuizzes();
         $this->createQuestions(10);
 
         $this->response

@@ -7,5 +7,9 @@ Route::middleware('auth:api')->group(function() {
         Route::resource('quizzes', 'QuizzesController')->only([
             'index', 'show', 'store', 'update'
         ]);
+
+        Route::resource('questions', 'QuestionsController')->only([
+            'index', 'show', 'store', 'update'
+        ]);
     });
 });

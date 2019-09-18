@@ -57,5 +57,27 @@ class QuestionsController extends Controller
         return response()->json($question, 200);
     }
 
+    /**
+     * @param Quiz $quiz
+     * @return JsonResponse
+     */
+    public function update(Request $request, Question $question): JsonResponse
+    {
+        Validator::make($request->all(), [
+            'description' => 'required'
+        ])->validate();
+
+        try {
+            $question->update(['description' => $request->description, 'type' => $request->type]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => $e->getMessage(),
+                'code' => $e->getCode(), 400]);
+        }
+
+        return response()->json($question, 200);
+
+    }
+
 
 }

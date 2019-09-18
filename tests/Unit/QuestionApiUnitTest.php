@@ -28,9 +28,21 @@ class QuestionApiUnitTest extends TestCase
         return factory(\App\Models\Question::class, $quantity)->create();
     }
 
+    /**
+     * @param int $quantity
+     * @return mixed
+     */
+    public function createQuizzes(int $quantity = 1)
+    {
+        return factory(\App\Models\Quiz::class, $quantity)->create();
+    }
+
     public function testCreate(): void
     {
+        $quiz = $this->createQuizzes(1)[0];
+
         $data = [
+            'quiz_id' => $quiz->id,
             'description' => $this->faker->title,
             'type' => 'radio'];
 

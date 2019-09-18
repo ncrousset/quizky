@@ -8,5 +8,5 @@ class Question extends Model
 {
     protected $table = 'questions';
 
-    protected $fillable = ['description', 'type', 'is_actived'];
+    protected $fillable = ['quiz_id', 'description', 'type', 'is_actived'];
 }

@@ -7,8 +7,8 @@ use Faker\Generator as Faker;
 
 $factory->define(Quiz::class, function (Faker $faker) {
     return [
-        'user_id' => 1, // this is user session
-        'title' => $faker->unique()->text,
+        'user_id' => factory(\App\User::class)->create()->id, // this is user session
+        'title' => $faker->firstName,
         'public' => rand(0,1)
     ];
 });

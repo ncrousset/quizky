@@ -111,12 +111,12 @@ class AnswerApiUnitTest extends TestCase
             ->assertJsonStructure(['id', 'description', 'question_id', 'is_valid']);
     }
 
-//    public function testShowNotElement(): void
-//    {
-//        $this->response
-//            ->json('GET', '/api/questions/1')
-//            ->assertStatus(404);
-//    }
+    public function testShowNotElement(): void
+    {
+        $this->response
+            ->json('GET', '/api/answers/1')
+            ->assertStatus(404);
+    }
 
 //    public function testUpdate(): void
 //    {

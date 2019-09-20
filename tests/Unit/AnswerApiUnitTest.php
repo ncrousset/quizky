@@ -6,9 +6,8 @@ use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
-class QuestionApiUnitTest extends TestCase
+class AnswerApiUnitTest extends TestCase
 {
-
     protected $response;
 
     public function setUp(): void
@@ -23,31 +22,31 @@ class QuestionApiUnitTest extends TestCase
      * @param int $quantity
      * @return mixed
      */
-    public function createQuestions(int $quantity = 1)
+    public function createAnswer(int $quantity = 1)
     {
-        return factory(\App\Models\Question::class, $quantity)->create();
+        return factory(\App\Models\Answer::class, $quantity)
+            ->create([
+                'question_id' => factory(\App\Models\Question::class)->create()->id
+            ]);
     }
 
-    /**
-     * @param int $quantity
-     * @return mixed
-     */
-    public function createQuizzes(int $quantity = 1)
+    public function createQuetion()
     {
-        return factory(\App\Models\Quiz::class, $quantity)->create();
+        return factory(\App\Models\Question::class)->create();
     }
+
 
     public function testCreate(): void
     {
-        $quiz = $this->createQuizzes(1)[0];
+        $question =  $this->createQuetion();
 
         $data = [
-            'quiz_id' => $quiz->id,
-            'description' => $this->faker->title,
-            'type' => 'radio'];
+            'question_id' => $question->id,
+            'description' => $this->faker->realText(15),
+            'is_valid' => true];
 
         $response = $this->response
-            ->json('POST', '/api/questions', $data)
+            ->json('POST', '/api/answers', $data)
             ->assertStatus(201)
             ->assertJson([
                 'created' => true,
@@ -140,5 +139,4 @@ class QuestionApiUnitTest extends TestCase
                 ]
             ]);
     }
-
 }

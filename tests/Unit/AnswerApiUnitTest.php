@@ -89,17 +89,17 @@ class AnswerApiUnitTest extends TestCase
             ]);
     }
 
-//    public function testIndex(): void
-//    {
-//        $this->createQuestions(10);
-//
-//        $this->response
-//            ->json('GET', '/api/questions')
-//            ->assertStatus(200)
-//            ->assertJsonStructure([
-//                'data' =>[['id', 'description', 'type', 'is_actived']],
-//            ]);
-//    }
+    public function testIndex(): void
+    {
+        $this->createAnswer(10);
+
+        $this->response
+            ->json('GET', '/api/questions')
+            ->assertStatus(200)
+            ->assertJsonStructure([
+                'data' =>[['id', 'description', 'question_id', 'is_valid']],
+            ]);
+    }
 
 //    public function testShow(): void
 //    {

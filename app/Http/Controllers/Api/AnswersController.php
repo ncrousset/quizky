@@ -11,6 +11,21 @@ use Illuminate\Support\Facades\Validator;
 
 class AnswersController extends Controller
 {
+
+    /**
+     * @return JsonResponse
+     */
+    public function index(): JsonResponse
+    {
+        $answers = Answer::all();
+
+        return response()->json(['data' => $answers], 200);
+    }
+
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     */
     public function store(Request $request): JsonResponse
     {
         Validator::make($request->all(), [

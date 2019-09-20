@@ -65,7 +65,26 @@ class AnswerApiUnitTest extends TestCase
             ->assertJsonStructure(['message', 'errors'])
             ->assertJson([
                 'errors' => [
-                    'description' => ['The description field is required.']
+                    'description' => ['The description field is required.'],
+                    'question_id' => ['The question id field is required.']
+                ]
+            ]);
+    }
+
+    public function testCreateErrorQuestionIdExists(): void
+    {
+        $data = [
+            'description' => $this->faker->realText(15),
+            'question_id' => 3,
+            'is_valid' => true];
+
+        $this->response
+            ->json('POST', '/api/answers', $data)
+            ->assertStatus(422)
+            ->assertJsonStructure(['message', 'errors'])
+            ->assertJson([
+                'errors' => [
+                    'question_id' => ['The selected question id is invalid.'],
                 ]
             ]);
     }

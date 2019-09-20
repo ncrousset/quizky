@@ -101,15 +101,15 @@ class AnswerApiUnitTest extends TestCase
             ]);
     }
 
-//    public function testShow(): void
-//    {
-//        $this->createQuestions(1);
-//
-//        $this->response
-//            ->json('GET', '/api/questions/1')
-//            ->assertStatus(200)
-//            ->assertJsonStructure(['id', 'description', 'type', 'is_actived']);
-//    }
+    public function testShow(): void
+    {
+        $this->createAnswer(1);
+
+        $this->response
+            ->json('GET', '/api/answers/1')
+            ->assertStatus(200)
+            ->assertJsonStructure(['id', 'description', 'question_id', 'is_valid']);
+    }
 
 //    public function testShowNotElement(): void
 //    {

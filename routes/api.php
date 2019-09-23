@@ -1,6 +1,7 @@
 <?php
 
 Route::post('register', 'Auth\RegisterController@register')->name('auth.register');
+Route::post('login', 'Auth\LoginController@login')->name('auth.login');
 
 Route::middleware('auth:api')->group(function() {
     Route::namespace('Api')->group(function() {

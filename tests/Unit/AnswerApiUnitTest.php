@@ -118,60 +118,47 @@ class AnswerApiUnitTest extends TestCase
             ->assertStatus(404);
     }
 
-//    public function testUpdate(): void
-//    {
-//        $question = $this->createQuestions(1)[0];
-//
-//        $data = [
-//            'description' => $this->faker->title,
-//            'type' => 'radio'];
-//
-//        $this->response
-//            ->json('PUT', '/api/questions/'.$question->id, $data)
-//            ->assertStatus(200)
-//            ->assertJsonStructure(['id', 'description', 'type', 'is_actived']);
-//    }
+    public function testUpdate(): void
+    {
+        $answer = $this->createAnswer(1)[0];
 
-//    public function testUpdateNotElement(): void
-//    {
-//        $data = [
-//            'description' => $this->faker->title,
-//            'type' => 'radio'];
-//
-//        $this->response
-//            ->json('PUT', '/api/questions/1', $data)
-//            ->assertStatus(404);
-//    }
+        $data = [
+            'description' => $this->faker->realText(15),
+            'is_valid' => true];
 
-//    public function testStoreErrorValidation(): void
-//    {
-//        $data = ['type' => 'check'];
-//
-//        $this->response
-//            ->json('POST', '/api/questions', $data)
-//            ->assertStatus(422)
-//            ->assertJsonStructure(['message', 'errors'])
-//            ->assertJson([
-//                'errors' => [
-//                    'description' => ['The description field is required.']
-//                ]
-//            ]);
-//    }
+        $this->response
+            ->json('PUT', '/api/answers/' . $answer->id, $data)
+            ->assertStatus(200)
+            ->assertJsonStructure(['id', 'description', 'question_id', 'is_valid']);
+    }
 
-//    public function testUpdateErrorValidation(): void
-//    {
-//        $question = $this->createQuestions(1)[0];
-//
-//        $data = ['type' => 'check'];
-//
-//        $this->response
-//            ->json('PUT', '/api/questions/'.$question->id, $data)
-//            ->assertStatus(422)
-//            ->assertJsonStructure(['message', 'errors'])
-//            ->assertJson([
-//                'errors' => [
-//                    'description' => ['The description field is required.']
-//                ]
-//            ]);
-//    }
+    public function testUpdateNotElement(): void
+    {
+        $data = [
+            'description' => $this->faker->realText(15),
+            'is_valid' => true];
+
+        $this->response
+            ->json('PUT', '/api/answers/1', $data)
+            ->assertStatus(404);
+    }
+
+
+    public function testUpdateErrorValidation(): void
+    {
+        $answer = $this->createAnswer(1)[0];
+
+        $data = [
+            'is_valid' => true];
+
+        $this->response
+            ->json('PUT', '/api/answers/'.$answer->id, $data)
+            ->assertStatus(422)
+            ->assertJsonStructure(['message', 'errors'])
+            ->assertJson([
+                'errors' => [
+                    'description' => ['The description field is required.']
+                ]
+            ]);
+    }
 }

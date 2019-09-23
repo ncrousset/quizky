@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Models\Answer;
 use App\Models\Question;
+use App\Models\Quiz;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -55,6 +56,30 @@ class AnswersController extends Controller
     public function show(Answer $answer): JsonResponse
     {
         return response()->json($answer, 200);
+    }
+
+    /**
+     * @param Answer $answer
+     * @return JsonResponse
+     */
+    public function update(Request $request, Answer $answer): JsonResponse
+    {
+        Validator::make($request->all(), [
+            'description' => 'required'
+        ])->validate();
+
+        try {
+            $answer->update([
+                'description' => $request->description,
+                'is_valid' => $request->is_valid]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => $e->getMessage(),
+                'code' => $e->getCode(), 400]);
+        }
+
+        return response()->json($answer, 200);
+
     }
 
 }

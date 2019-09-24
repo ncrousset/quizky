@@ -94,7 +94,7 @@ class AnswerApiUnitTest extends TestCase
         $this->createAnswer(10);
 
         $this->response
-            ->json('GET', '/api/answers')
+            ->json('GET', '/api/answers/1/list')
             ->assertStatus(200)
             ->assertJsonStructure([
                 'data' =>[['id', 'description', 'question_id', 'is_valid']],
@@ -108,7 +108,7 @@ class AnswerApiUnitTest extends TestCase
         $this->response
             ->json('GET', '/api/answers/1')
             ->assertStatus(200)
-            ->assertJsonStructure(['id', 'description', 'question_id', 'is_valid']);
+            ->assertJsonStructure(['id','description', 'question_id', 'is_valid']);
     }
 
     public function testShowNotElement(): void

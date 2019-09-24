@@ -16,11 +16,9 @@ class AnswersController extends Controller
     /**
      * @return JsonResponse
      */
-    public function index(): JsonResponse
+    public function index(Question $question): JsonResponse
     {
-        $answers = Answer::all();
-
-        return response()->json(['data' => $answers], 200);
+        return response()->json(['data' => $question->answers], 200);
     }
 
     /**

@@ -74,7 +74,7 @@ class QuestionApiUnitTest extends TestCase
         $this->response
             ->json('GET', '/api/questions/1')
             ->assertStatus(200)
-            ->assertJsonStructure(['id', 'description', 'type', 'is_actived']);
+            ->assertJsonStructure(['id', 'description', 'type', 'is_actived', 'answers']);
     }
 
     public function testShowNotElement(): void

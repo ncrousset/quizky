@@ -54,6 +54,9 @@ class QuestionsController extends Controller
      */
     public function show(Question $question): JsonResponse
     {
+
+        $question = $question->with('answers')->find($question->id);
+
         return response()->json($question, 200);
     }
 

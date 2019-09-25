@@ -17,7 +17,7 @@ class QuestionsController extends Controller
      */
     public function index(): JsonResponse
     {
-        $questions = Question::all();
+        $questions = Question::with('answers')->get();
 
         return response()->json(['data' => $questions], 200);
     }

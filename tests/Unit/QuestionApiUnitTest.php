@@ -63,7 +63,7 @@ class QuestionApiUnitTest extends TestCase
             ->json('GET', '/api/questions')
             ->assertStatus(200)
             ->assertJsonStructure([
-                'data' =>[['id', 'description', 'type', 'is_actived']],
+                'data' =>[['id', 'description', 'type', 'is_actived', 'answers']],
             ]);
     }
 

@@ -10,7 +10,7 @@ class Quiz extends Model
 
     protected $fillable = ['id', 'user_id', 'title', 'public'];
 
-    public function question()
+    public function questions()
     {
         return $this->hasMany(Question::class);
     }

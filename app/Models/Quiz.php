@@ -9,4 +9,9 @@ class Quiz extends Model
     protected $table = 'quizzes';
 
     protected $fillable = ['id', 'user_id', 'title', 'public'];
+
+    public function question()
+    {
+        return $this->hasMany(Question::class);
+    }
 }

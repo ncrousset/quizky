@@ -49,7 +49,7 @@ class QuizApiUnitTest extends TestCase
             ->json('GET', '/api/quizzes')
             ->assertStatus(200)
             ->assertJsonStructure([
-                'data' =>[['id', 'title', 'public']],
+                'data' =>[['id', 'title', 'public', 'questions']],
             ]);
     }
 
@@ -60,7 +60,7 @@ class QuizApiUnitTest extends TestCase
         $this->response
             ->json('GET', '/api/quizzes/1')
             ->assertStatus(200)
-            ->assertJsonStructure(['id', 'title', 'public']);
+            ->assertJsonStructure(['id', 'title', 'public', 'questions']);
     }
 
     public function testShowNotElement(): void

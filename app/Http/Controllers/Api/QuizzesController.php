@@ -17,7 +17,7 @@ class QuizzesController extends Controller
      */
     public function index(): JsonResponse
     {
-        $quizzes = Quiz::all();
+        $quizzes = Quiz::with('questions')->get();
 
         return response()->json(['data' => $quizzes], 200);
     }
@@ -53,6 +53,8 @@ class QuizzesController extends Controller
      */
     public function show(Quiz $quiz): JsonResponse
     {
+        $quiz = Quiz::with('questions')->find($quiz->id);
+
         return response()->json($quiz, 200);
     }
 
